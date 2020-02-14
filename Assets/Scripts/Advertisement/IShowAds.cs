@@ -1,0 +1,4 @@
+﻿interface IShowAds
+{
+    void ShowAds();
+}

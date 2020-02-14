@@ -175,15 +175,15 @@ public class NumberGenerator : MonoBehaviour
 
     public void HideCellValues()
     {
-        int hideCellsCount = 1;
+        int hideCellsCount = 0;
         DifficultManager difficultManager = FindObjectOfType<DifficultManager>();
 
         if (difficultManager != null)
         {
-            if (difficultManager.currentDifficult == "Лёгкая") hideCellsCount = 32;
-            else if (difficultManager.currentDifficult == "Средняя") hideCellsCount = 42;
-            else if (difficultManager.currentDifficult == "Сложная") hideCellsCount = 47;
-            else if (difficultManager.currentDifficult == "Экспертная") hideCellsCount = 52;
+            if (difficultManager.currentDifficult == "Лёгкая") hideCellsCount = 2;
+            else if (difficultManager.currentDifficult == "Средняя") hideCellsCount = 41;
+            else if (difficultManager.currentDifficult == "Сложная") hideCellsCount = 46;
+            else if (difficultManager.currentDifficult == "Экспертная") hideCellsCount = 51;
         }
         else Debug.LogError("Can't find: " + typeof(DifficultManager) + " !");
 

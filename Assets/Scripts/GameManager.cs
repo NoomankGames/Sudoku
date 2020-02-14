@@ -45,6 +45,8 @@ public class GameManager : MonoBehaviour
 
     private void LateUpdate()
     {
+        CountCompletedCells();
+
         DisplayMistakes();
         DisplayScore();
 
@@ -52,12 +54,16 @@ public class GameManager : MonoBehaviour
 
         if (CompleteCells == 81)
         {
+            FindObjectOfType<VideoAdsManager>().shown = false;
             DisplayWindow(_winWindow);
+            IsPaused = true;
             return;
         }
         else if (Mistakes >= 3)
         {
+            FindObjectOfType<VideoAdsManager>().shown = false;
             DisplayWindow(_defeatWindow);
+            IsPaused = true;
             return;
         }
 
@@ -89,5 +95,21 @@ public class GameManager : MonoBehaviour
     private void DisplayWindow(GameObject target)
     {
         target.SetActive(true);
+    }
+
+    private void CountCompletedCells()
+    {
+        int completed = 0;
+
+        Cell[] cells = FindObjectsOfType<Cell>();
+        for (int i = 0; i < 81; i++)
+        {
+            if (cells[i].storedNumber == cells[i].trueStoredNumber)
+            {
+                completed++;
+            }
+        }
+
+        CompleteCells = completed;
     }
 }

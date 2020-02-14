@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class CellChanger : MonoBehaviour
 {
     [SerializeField] private int _number = 1;
-    private int _count = 0;
+    [SerializeField] private AudioClip _soundFX = null;
 
     [SerializeField] private GameObject _text = null;
 
@@ -33,8 +33,8 @@ public class CellChanger : MonoBehaviour
                 targetCell.SetStorageNumber(_number);
                 targetCell.ChangeStoredNumberTextColor();
 
-                
-                if(targetCell.storedNumber == targetCell.trueStoredNumber)
+
+                if (targetCell.storedNumber == targetCell.trueStoredNumber)
                 {
                     GameManager.Score += GetPoints();
                 }
@@ -42,31 +42,33 @@ public class CellChanger : MonoBehaviour
         }
 
         CheckNumberInCells();
+        AudioSource audioSource = GameObject.Find("Audio Point").GetComponent<AudioSource>();
+        audioSource.clip = _soundFX;
+        audioSource.Play();
     }
 
-    private void CheckNumberInCells()
+    public void CheckNumberInCells()
     {
+        int count = 0;
+
         Cell[] cells = FindObjectsOfType<Cell>();
         foreach (Cell targetCell in cells)
         {
             if (targetCell.storedNumber == _number && targetCell.trueStoredNumber == _number)
             {
-                if (_count < 9) _count++;
+                if (count < 9) count++;
             }
         }
 
-        if (_count == 9)
+        if (count == 9)
         {
             _text.SetActive(false);
             _button.interactable = false;
-            _count = 9;
-            GameManager.CompleteCells += 9;
         }
         else
         {
             _text.SetActive(true);
             _button.interactable = true;
-            _count = 0;
         }
     }
 
@@ -75,9 +77,9 @@ public class CellChanger : MonoBehaviour
         int points = 50;
 
         DifficultManager difficultManager = FindObjectOfType<DifficultManager>();
-        for(int i = 0; i < difficultManager.difficulties.Length; i++)
+        for (int i = 0; i < difficultManager.difficulties.Length; i++)
         {
-            if(difficultManager.currentDifficult == difficultManager.difficulties[i])
+            if (difficultManager.currentDifficult == difficultManager.difficulties[i])
             {
                 points *= i + 1;
                 break;

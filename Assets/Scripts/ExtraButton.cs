@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class ExtraButton : MonoBehaviour
 {
+    [SerializeField] private AudioClip _soundFX = null;
+
     private ChangeMemoryManager _changeMemoryManager = null;
 
     private void Start()
@@ -16,6 +18,15 @@ public class ExtraButton : MonoBehaviour
     public void UndoChanges()
     {
         _changeMemoryManager.UndoLastChange();
+        AudioSource audioSource = GameObject.Find("Audio Point").GetComponent<AudioSource>();
+        audioSource.clip = _soundFX;
+        audioSource.Play();
+
+        CellChanger[] cellChangers = FindObjectsOfType<CellChanger>();
+        foreach (CellChanger targetChanger in cellChangers)
+        {
+            targetChanger.CheckNumberInCells();
+        }
     }
 
     public void ClearCellValue()
@@ -27,7 +38,18 @@ public class ExtraButton : MonoBehaviour
             {
                 _changeMemoryManager.AddChange(targetCell, targetCell.storedNumber);
                 targetCell.Clear();
+
+                AudioSource audioSource = GameObject.Find("Audio Point").GetComponent<AudioSource>();
+                audioSource.clip = _soundFX;
+                audioSource.Play();
+                break;
             }
+        }
+
+        CellChanger[] cellChangers = FindObjectsOfType<CellChanger>();
+        foreach (CellChanger targetChanger in cellChangers)
+        {
+            targetChanger.CheckNumberInCells();
         }
     }
 
@@ -41,6 +63,11 @@ public class ExtraButton : MonoBehaviour
                 _changeMemoryManager.AddChange(targetCell, targetCell.storedNumber);
                 targetCell.SetStorageNumber(targetCell.trueStoredNumber);
                 targetCell.ChangeStoredNumberTextColor();
+
+                AudioSource audioSource = GameObject.Find("Audio Point").GetComponent<AudioSource>();
+                audioSource.clip = _soundFX;
+                audioSource.Play();
+                break;
             }
         }
     }

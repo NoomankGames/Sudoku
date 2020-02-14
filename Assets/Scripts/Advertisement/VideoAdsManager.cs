@@ -12,7 +12,7 @@ public class VideoAdsManager : MonoBehaviour, IShowAds
     public bool testMode = true;
 
     public string adsID = "video";
-    private bool _shown = false;
+    public bool shown = false;
 
     private void Awake()
     {
@@ -21,10 +21,10 @@ public class VideoAdsManager : MonoBehaviour, IShowAds
 
     private void Update()
     {
-        if (_shown == false)
+        if (shown == false)
         {
             ShowAds();
-            _shown = true;
+            shown = true;
         }
     }
 
